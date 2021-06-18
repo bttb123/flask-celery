@@ -13,10 +13,10 @@ function handleClick(type) {
     body: JSON.stringify({ type: type }),
   })
   .then(response => response.json())
-  .then(data => getStatus(data.task_id));
+  .then(data => getStatus(data.task_id, type));
 }
 
-function getStatus(taskID) {
+function getStatus(taskID, type) {
   fetch(`/tasks/${taskID}`, {
     method: 'GET',
     headers: {
@@ -38,7 +38,7 @@ function getStatus(taskID) {
     if (taskStatus === 'SUCCESS' || taskStatus === 'FAILURE') return false;
     setTimeout(function() {
       getStatus(res.task_id);
-    }, 1000);
+    }, type*5);
   })
   .catch(err => console.log(err));
 }
